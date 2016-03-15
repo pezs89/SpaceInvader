@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- XML -->
+<Options>
+  <option id="1">
+    <mouse>True</mouse>
+    <keyboard>True</keyboard>
+    <moveleft>A</moveleft>
+    <moveright>D</moveright>
+    <moveup>W</moveup>
+    <movedown>S</movedown>
+    <pause>P</pause>
+    <shoot>Space</shoot>
+  </option>
+</Options>
