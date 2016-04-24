@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Bindable.cs" />
+    <Compile Include="Model\EnemyObjects.cs" />
+    <Compile Include="Model\MainObject.cs" />
+    <Compile Include="Model\PlayerSpaceShip.cs" />
     <Compile Include="View\OptionsWindow.xaml.cs">
       <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>
