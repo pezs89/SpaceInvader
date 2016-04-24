@@ -16,9 +16,6 @@ namespace SpaceInvader.Model
         public string Pause { get; set; }
         public string Shoot { get; set; }
 
-        public bool IsKeyboardEnabled { get; set; }
-        public bool IsMouseEnabled { get; set; }
-
         public OptionsModel() { }
 
         public OptionsModel(string moveLeft,string moveRight, string moveUp, string moveDown, string pause, string shoot, bool isKeyboardEnabled, bool isMouseEnabled)
@@ -29,8 +26,6 @@ namespace SpaceInvader.Model
             this.MoveDown = MoveDown;
             this.Pause = pause;
             this.Shoot = shoot;
-            this.IsKeyboardEnabled = isKeyboardEnabled;
-            this.IsMouseEnabled = isMouseEnabled;
         }
 
     }

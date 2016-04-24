@@ -59,10 +59,24 @@
     <Compile Include="Model\EnemyObjects.cs" />
     <Compile Include="Model\MainObject.cs" />
     <Compile Include="Model\PlayerSpaceShip.cs" />
+    <Compile Include="View\DifficultySelection.xaml.cs">
+      <DependentUpon>DifficultySelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OptionsWindow.xaml.cs">
       <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="View\CreditsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DifficultySelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

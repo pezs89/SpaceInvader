@@ -28,7 +28,12 @@ namespace SpaceInvader
 
         private void BtnNewGame_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow main = this;
+            DifficultySelection childWindow = new DifficultySelection();
+            childWindow.Height = this.Height;
+            childWindow.Width = this.Width;
+            main.Close();
+            childWindow.ShowDialog();
         }
 
         private void BtnOptions_Click(object sender, RoutedEventArgs e)
@@ -36,7 +41,7 @@ namespace SpaceInvader
             OptionsWindow childWindow = new OptionsWindow();
 
             childWindow.Height = this.Height;
-            childWindow.Width = this.Height;
+            childWindow.Width = this.Width;
 
             childWindow.ShowDialog();
         }

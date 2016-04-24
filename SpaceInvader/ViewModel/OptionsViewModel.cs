@@ -57,8 +57,6 @@ namespace SpaceInvader.ViewModel
                         optModel.MoveRight = (string)item.Element("moveright");
                         optModel.Shoot = (string)item.Element("shoot");
                         optModel.Pause = (string)item.Element("pause");
-                        optModel.IsKeyboardEnabled = (bool)item.Element("keyboard");
-                        optModel.IsMouseEnabled = (bool)item.Element("mouse");
                     }
                     return optModel;
                 }
@@ -91,8 +89,6 @@ namespace SpaceInvader.ViewModel
                         xmlData.Single().Element("moveleft").Value = optModel.MoveLeft;
                         xmlData.Single().Element("shoot").Value = optModel.Shoot;
                         xmlData.Single().Element("pause").Value = optModel.Pause;
-                        xmlData.Single().Element("keyboard").Value = optModel.IsKeyboardEnabled.ToString();
-                        xmlData.Single().Element("mouse").Value = optModel.IsMouseEnabled.ToString();
                     }
                     optionsXml.Save(pathString);
                 }

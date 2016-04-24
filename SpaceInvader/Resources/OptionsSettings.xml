@@ -2,8 +2,6 @@
 <!-- XML -->
 <Options>
   <option id="1">
-    <mouse>True</mouse>
-    <keyboard>True</keyboard>
     <moveleft>A</moveleft>
     <moveright>D</moveright>
     <moveup>W</moveup>
