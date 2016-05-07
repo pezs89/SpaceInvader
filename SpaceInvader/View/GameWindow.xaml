@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="GameWindow" Height="300" Width="300" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
     <Window.Background>
-        <ImageBrush ImageSource="../Resources/AppWallpaper.jpg"></ImageBrush>
+        <ImageBrush ImageSource="../Resources/spacewallpaper.jpg"></ImageBrush>
     </Window.Background>
     <Canvas x:Name="GameCanvas"></Canvas>
 </Window>

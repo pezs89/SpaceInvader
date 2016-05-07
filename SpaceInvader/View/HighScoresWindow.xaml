@@ -78,7 +78,8 @@
                 Background="Transparent" 
                 RowBackground="Transparent"  
                 HeadersVisibility="Column"
-                BorderThickness="0">
+                BorderThickness="0"
+                IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Header="Name" 

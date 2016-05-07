@@ -61,6 +61,7 @@
     <Compile Include="Model\EnemyObjects.cs" />
     <Compile Include="Model\MainObject.cs" />
     <Compile Include="Model\PlayerSpaceShip.cs" />
+    <Compile Include="ViewModel\GamePlayViewModel.cs" />
     <Compile Include="View\DifficultySelection.xaml.cs">
       <DependentUpon>DifficultySelection.xaml</DependentUpon>
     </Compile>
@@ -148,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Scores.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\spacewallpaper.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
