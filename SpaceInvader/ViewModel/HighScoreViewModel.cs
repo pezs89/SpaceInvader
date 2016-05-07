@@ -13,6 +13,7 @@ namespace SpaceInvader.ViewModel
     class HighScoreViewModel
     {
         List<HighScoreModel> highScoreModel;
+        HighScoreModel hsModel;
 
         public List<HighScoreModel> HighScoreModel
         {
@@ -29,37 +30,8 @@ namespace SpaceInvader.ViewModel
 
         public HighScoreViewModel()
         {
-            HighScoreModel = getXmlData();
-        }
-
-        public List<HighScoreModel> getXmlData()
-        {
-            string pathString = @"..\..\Resources\Scores.xml";
-
-            try
-            {
-                if (File.Exists(pathString))
-                {
-                    XDocument highScoresFromXml = XDocument.Load(pathString);
-
-                    var readData = highScoresFromXml.Descendants("Data");
-
-                    List<HighScoreModel> highScoreElementsList = new List<HighScoreModel>();
-                    var dataFromXml = from x in readData select x;
-
-                    foreach (var item in dataFromXml)
-                    {
-                        highScoreElementsList.Add(new HighScoreModel((string)item.Element("Name"), (string)item.Element("Score")));
-                    }
-                    return highScoreElementsList;
-                } return null;
-                
-            }
-            catch (IOException)
-            {
-                return null;
-            }
-
+            hsModel = new HighScoreModel();
+            HighScoreModel = hsModel.highScoreAccess.getXmlData();
         }
     }
 }

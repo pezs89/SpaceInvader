@@ -13,7 +13,6 @@ namespace SpaceInvader.ViewModel
     class OptionsViewModel
     {
         OptionsModel optModel;
-        private string pathString = @"..\..\Resources\OptionsSettings.xml";
         public bool IsChanged = false;
 
 
@@ -30,75 +29,13 @@ namespace SpaceInvader.ViewModel
             }
         }
 
+        
         public OptionsViewModel()
         {
-            optModel = getOptionsXmlData();
+            optModel = new OptionsModel();
+            optModel.optionsXmlDataProvider.getXmlData(optModel);
         }
-
-        public OptionsModel getOptionsXmlData()
-        {
-            try
-            {
-                if (File.Exists(pathString))
-                {
-                    XDocument optionsXml = XDocument.Load(pathString);
-
-                    var readData = optionsXml.Descendants("option");
-
-                    optModel = new OptionsModel();
-
-                    var xmlData = from x in readData select x;
-
-                    foreach (var item in xmlData)
-                    {
-                        optModel.MoveDown = (string)item.Element("movedown");
-                        optModel.MoveUp = (string)item.Element("moveup");
-                        optModel.MoveLeft = (string)item.Element("moveleft");
-                        optModel.MoveRight = (string)item.Element("moveright");
-                        optModel.Shoot = (string)item.Element("shoot");
-                        optModel.Pause = (string)item.Element("pause");
-                    }
-                    return optModel;
-                }
-                return null;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public void setOptionsXmlData()
-        {
-            try
-            {
-                if (File.Exists(pathString))
-                {
-                    XDocument optionsXml = XDocument.Load(pathString);
-
-                    var readData = optionsXml.Descendants("option");
-
-                    var xmlData = from x in readData select x;
-
-                    foreach (var item in xmlData)
-                    {
-                        xmlData.Single().Element("movedown").Value = optModel.MoveDown;
-                        xmlData.Single().Element("moveup").Value = optModel.MoveUp;
-                        xmlData.Single().Element("moveright").Value = optModel.MoveRight;
-                        xmlData.Single().Element("moveleft").Value = optModel.MoveLeft;
-                        xmlData.Single().Element("shoot").Value = optModel.Shoot;
-                        xmlData.Single().Element("pause").Value = optModel.Pause;
-                    }
-                    optionsXml.Save(pathString);
-                }
-            }
-            catch (IOException ex)
-            {
-                ex.ToString();
-            }
-        }
-
+        
         public bool Check(string inputKey)
         {
             if (!string.IsNullOrEmpty(inputKey))

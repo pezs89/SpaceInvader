@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpaceInvader.View"
         mc:Ignorable="d"
-        Title="GameWindow" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+        Title="GameWindow" Height="300" Width="300" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
     <Window.Background>
         <ImageBrush ImageSource="../Resources/AppWallpaper.jpg"></ImageBrush>
     </Window.Background>

@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DAL\CreditsXmlAccess.cs" />
+    <Compile Include="DAL\OptionsXmlAccess.cs" />
     <Compile Include="Model\Bindable.cs" />
     <Compile Include="Model\EnemyObjects.cs" />
     <Compile Include="Model\MainObject.cs" />

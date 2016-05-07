@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpaceInvader.DAL;
 
 namespace SpaceInvader.Model
 {
     class OptionsModel
     {
+        public OptionsXmlAccess optionsXmlDataProvider { get; set; }
+
         public string MoveLeft { get; set; }
         public string MoveRight { get; set; }
         public string MoveUp { get; set; }
@@ -16,7 +19,9 @@ namespace SpaceInvader.Model
         public string Pause { get; set; }
         public string Shoot { get; set; }
 
-        public OptionsModel() { }
+        public OptionsModel() {
+            optionsXmlDataProvider = new OptionsXmlAccess();
+        }
 
         public OptionsModel(string moveLeft,string moveRight, string moveUp, string moveDown, string pause, string shoot, bool isKeyboardEnabled, bool isMouseEnabled)
         {
@@ -27,6 +32,5 @@ namespace SpaceInvader.Model
             this.Pause = pause;
             this.Shoot = shoot;
         }
-
     }
 }

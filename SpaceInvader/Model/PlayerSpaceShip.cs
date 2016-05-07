@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace SpaceInvader.Model
@@ -72,7 +73,7 @@ namespace SpaceInvader.Model
             }
         }
 
-        public PlayerSpaceShip(double posX, double posY, double width, double height, double horizontalMovement, double verticalMovement, EnemyType typeOfEnemy) : base(posX, posY, width, height)
+        public PlayerSpaceShip(double posX, double posY, double width, double height, double horizontalMovement, double verticalMovement) : base(posX, posY, width, height)
         {
             this.horizontalMovement = horizontalMovement;
             this.verticalMovement = verticalMovement;
@@ -83,6 +84,8 @@ namespace SpaceInvader.Model
             Rectangle spaceShipRect = new Rectangle();
             spaceShipRect.Width = Area.Width;
             spaceShipRect.Height = Area.Height;
+
+            spaceShipRect.Fill = Brushes.Blue;
 
             Binding rectangleXBinding = new Binding("Area.X");
             rectangleXBinding.Source = this;

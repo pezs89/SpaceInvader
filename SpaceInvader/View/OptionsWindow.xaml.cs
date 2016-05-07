@@ -45,7 +45,7 @@ namespace SpaceInvader.View
         {
             if (optionsVM.IsChanged)
             {
-                optionsVM.setOptionsXmlData();
+                optionsVM.OptModel.optionsXmlDataProvider.setOptions(optionsVM.OptModel);
                 timer.Start();
                 StatusLabel.Content = "Settings has been updated!";
 
