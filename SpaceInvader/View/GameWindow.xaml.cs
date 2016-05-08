@@ -23,6 +23,8 @@ namespace SpaceInvader.View
     public partial class GameWindow : Window
     {
         DispatcherTimer timer;
+        DispatcherTimer timerOfEnemyAdding;
+        DispatcherTimer timerOfEnemyMovement;
         GamePlayViewModel gamePlayVM;
 
         public const double spaceShipSpeed = 10;
@@ -36,10 +38,46 @@ namespace SpaceInvader.View
             GameCanvas.Children.Add(gamePlayVM.PlayerSpaceShip.getSpaceShip());
 
             timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             timer.Tick += Timer_Tick;
             timer.Start();
 
+            timerOfEnemyAdding = new DispatcherTimer();
+            timerOfEnemyAdding.Interval = new TimeSpan(0, 0, 1);
+            timerOfEnemyAdding.Tick += TimerOfEnemyAdding_Tick;
+            timerOfEnemyAdding.Start();
+
+            timerOfEnemyMovement = new DispatcherTimer();
+            timerOfEnemyMovement.Interval = new TimeSpan(0, 0, 0, 0, 20);
+            timerOfEnemyMovement.Tick += TimerOfEnemyMovement_Tick;
+            timerOfEnemyMovement.Start();
+        }
+
+        private void TimerOfEnemyMovement_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < gamePlayVM.EnemyList.Count; i++)
+            {
+                gamePlayVM.EnemyList[i].Move(GameCanvas.ActualWidth, GameCanvas.ActualHeight, 10);
+            }
+
+            //for (int i = 0; i < gamePlayVM.EnemyList.Count; i++)
+            //{
+            //    if (gamePlayVM.EnemyList[i].Area.X == 0)
+            //    {
+            //        gamePlayVM.RemoveEnemy(GameCanvas);
+            //    }
+            //}
+        }
+
+        private void TimerOfEnemyAdding_Tick(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            Array enemyTypeValues = Enum.GetValues(typeof(Model.EnemyType));
+            Model.EnemyType randomEnemyType = (Model.EnemyType)enemyTypeValues.GetValue(rnd.Next(enemyTypeValues.Length));
+
+            gamePlayVM.Enemy = new Model.EnemyObjects(GameCanvas.ActualWidth, rnd.Next(0, (int)GameCanvas.ActualHeight-20), 20, 20, randomEnemyType);
+            GameCanvas.Children.Add(gamePlayVM.Enemy.getSpaceShip());
+            gamePlayVM.EnemyList.Add(gamePlayVM.Enemy);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -48,12 +86,6 @@ namespace SpaceInvader.View
             {
                 gamePlayVM.AmmoList[i].Move();
             }
-            for (int i = 0; i < gamePlayVM.EnemyList.Count; i++)
-            {
-                gamePlayVM.EnemyList[i].Move(GameCanvas.ActualWidth,GameCanvas.ActualHeight, 10);
-            }
-
-            
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -92,12 +124,6 @@ namespace SpaceInvader.View
                 gamePlayVM.Ammo = gamePlayVM.PlayerSpaceShip.Shoot();
                 this.GameCanvas.Children.Add(gamePlayVM.Ammo.getAmmo());
                 gamePlayVM.AmmoList.Add(gamePlayVM.Ammo);
-            }
-            else if (e.Key == Key.Left)
-            {
-                gamePlayVM.Enemy = new Model.EnemyObjects(GameCanvas.ActualWidth, GameCanvas.ActualHeight / 2, 20, 20, Model.EnemyType.Easy);
-                GameCanvas.Children.Add(gamePlayVM.Enemy.getSpaceShip());
-                gamePlayVM.EnemyList.Add(gamePlayVM.Enemy);
             }
         }
     }

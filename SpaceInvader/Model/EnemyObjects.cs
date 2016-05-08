@@ -12,10 +12,9 @@ namespace SpaceInvader.Model
 {
     public enum EnemyType
     {
-        Easy, 
+        Easy,
         Medium,
-        Hard,
-        Boss
+        Hard
     }
     class EnemyObjects : MainObject
     {
@@ -56,15 +55,25 @@ namespace SpaceInvader.Model
                 {
                     takenDamage = 3;
                 }
-                if (typeOfEnemySpaceShip == EnemyType.Boss)
-                {
-                    takenDamage = 10;
-                }
             }
         }
-        public EnemyObjects(double posX, double posY, double width, double height,EnemyType typeOfEnemy) : base(posX, posY, width, height)
+        public EnemyObjects(double posX, double posY, double width, double height, EnemyType typeOfEnemy) : base(posX, posY, width, height)
         {
             this.typeOfEnemySpaceShip = typeOfEnemy;
+            switch (TypeOfEnemySpaceShip)
+            {
+                case EnemyType.Easy:
+                    this.takenDamage = 1;
+                    break;
+                case EnemyType.Medium:
+                    this.takenDamage = 2;
+                    break;
+                case EnemyType.Hard:
+                    this.takenDamage = 3;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public Rectangle getSpaceShip()
@@ -73,19 +82,31 @@ namespace SpaceInvader.Model
             spaceShipRect.Width = Area.Width;
             spaceShipRect.Height = Area.Height;
 
-            spaceShipRect.Fill = Brushes.Blue ;
+            if (TypeOfEnemySpaceShip == EnemyType.Easy)
+            {
+                spaceShipRect.Fill = Brushes.Green;
+            }
+            else if (TypeOfEnemySpaceShip == EnemyType.Medium)
+            {
+                spaceShipRect.Fill = Brushes.Blue;
+            }
+            else if (TypeOfEnemySpaceShip == EnemyType.Hard)
+            {
+                spaceShipRect.Fill = Brushes.DarkBlue;
+            }
+            
             Binding rectangleXBinding = new Binding("Area.X");
             rectangleXBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.LeftProperty, rectangleXBinding);
-            
+
             Binding rectangleYBinding = new Binding("Area.Y");
             rectangleYBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.TopProperty, rectangleYBinding);
-            
+
             Binding rectangleWidthBinding = new Binding("Area.Width");
             rectangleWidthBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.WidthProperty, rectangleWidthBinding);
-            
+
             Binding rectangleHeightBinding = new Binding("Area.Height");
             rectangleHeightBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.HeightProperty, rectangleHeightBinding);
@@ -96,7 +117,7 @@ namespace SpaceInvader.Model
         public void Move(double canvasWidth, double canvasHeight, double speed)
         {
             switch (typeOfEnemySpaceShip)
-            {   
+            {
                 case EnemyType.Easy:
                 case EnemyType.Medium:
                 case EnemyType.Hard:
@@ -117,8 +138,6 @@ namespace SpaceInvader.Model
                     }
 
                     OnPropertyChanged("Area");
-                    break;
-                case EnemyType.Boss:
                     break;
                 default:
                     break;

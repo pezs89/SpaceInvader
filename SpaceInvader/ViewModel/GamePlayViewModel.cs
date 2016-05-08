@@ -18,7 +18,7 @@ namespace SpaceInvader.ViewModel
         private List<EnemyObjects> enemyList;
         private EnemyObjects enemy;
         private AmmoModel ammo;
-
+        private List<EnemyObjects> deleteFromEnemyList;
         bool gameIsPaused;
         bool gameInSession;
 
@@ -121,15 +121,37 @@ namespace SpaceInvader.ViewModel
             }
         }
 
+        
+        public List<EnemyObjects> DeleteFromEnemyList
+        {
+            get
+            {
+                return deleteFromEnemyList;
+            }
+
+            set
+            {
+                deleteFromEnemyList = value;
+            }
+        }
+
+        public void RemoveEnemy(Canvas canvas)
+        {
+            var images = canvas.Children.OfType<EnemyObjects>().ToList();
+            foreach (var item in images)
+            {
+                canvas.Children.Remove(item.getSpaceShip());
+            }
+        }
+
         public GamePlayViewModel()
         {
             opt = new OptionsModel();
             opt.optionsXmlDataProvider.getXmlData(Opt);
             ammoList = new List<AmmoModel>();
             enemyList = new List<EnemyObjects>();
+            deleteFromEnemyList = new List<EnemyObjects>();
         }
-
-
 
         public string SpecKeys(Key inputKey)
         {
