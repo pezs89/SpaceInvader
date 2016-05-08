@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="DAL\CreditsXmlAccess.cs" />
     <Compile Include="DAL\OptionsXmlAccess.cs" />
+    <Compile Include="Model\AmmoModel.cs" />
     <Compile Include="Model\Bindable.cs" />
     <Compile Include="Model\EnemyObjects.cs" />
     <Compile Include="Model\MainObject.cs" />
@@ -152,6 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\spacewallpaper.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\vipermarkii.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

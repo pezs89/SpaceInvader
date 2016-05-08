@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using SpaceInvader.Model;
+using SpaceInvader.ViewModel;
+using System.Diagnostics;
 
 namespace SpaceInvader.View
 {
@@ -22,30 +23,83 @@ namespace SpaceInvader.View
     public partial class GameWindow : Window
     {
         DispatcherTimer timer;
-        PlayerSpaceShip ship;
+        GamePlayViewModel gamePlayVM;
+
+        public const double spaceShipSpeed = 10;
         public GameWindow()
         {
             InitializeComponent();
+            gamePlayVM = new GamePlayViewModel();
+            this.DataContext = gamePlayVM;
+
+            gamePlayVM.PlayerSpaceShip = new Model.PlayerSpaceShip(100, 100, 20, 20);
+            GameCanvas.Children.Add(gamePlayVM.PlayerSpaceShip.getSpaceShip());
 
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
             timer.Tick += Timer_Tick;
-            ship = new PlayerSpaceShip(20, GameCanvas.ActualHeight / 2, 10, 10, 5, 5);
-            GameCanvas.Children.Add(ship.getSpaceShip());
+            timer.Start();
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            timer.Start();
-            ship.Move(GameCanvas.ActualWidth, GameCanvas.ActualHeight, 10);
+            for (int i = 0; i < gamePlayVM.AmmoList.Count; i++)
+            {
+                gamePlayVM.AmmoList[i].Move();
+            }
+            for (int i = 0; i < gamePlayVM.EnemyList.Count; i++)
+            {
+                gamePlayVM.EnemyList[i].Move(GameCanvas.ActualWidth,GameCanvas.ActualHeight, 10);
+            }
+
+            
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.E)
+            if (e.Key == Key.Escape)
             {
-                this.ship.Move(20, GameCanvas.ActualHeight - 5, 5);
+                gamePlayVM.GameIsPaused = true;
+
+                if (MessageBox.Show("Do you want to quit?", "Warning", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    gamePlayVM.GameInSession = false;
+                }
+            }
+            else if (gamePlayVM.SpecKeys(e.Key) == gamePlayVM.Opt.MoveLeft)
+            {
+                gamePlayVM.PlayerSpaceShip.MovementDirection = Model.Direction.LeftMove;
+                gamePlayVM.PlayerSpaceShip.KeyMove(spaceShipSpeed, GameCanvas.ActualWidth, GameCanvas.ActualHeight);
+            }
+            else if (gamePlayVM.SpecKeys(e.Key) == gamePlayVM.Opt.MoveRight)
+            {
+                gamePlayVM.PlayerSpaceShip.MovementDirection = Model.Direction.RightMove;
+                gamePlayVM.PlayerSpaceShip.KeyMove(spaceShipSpeed, GameCanvas.ActualWidth, GameCanvas.ActualHeight);
+            }
+            else if (gamePlayVM.SpecKeys(e.Key) == gamePlayVM.Opt.MoveUp)
+            {
+                gamePlayVM.PlayerSpaceShip.MovementDirection = Model.Direction.UpMove;
+                gamePlayVM.PlayerSpaceShip.KeyMove(spaceShipSpeed, GameCanvas.ActualWidth, GameCanvas.ActualHeight);
+            }
+            else if (gamePlayVM.SpecKeys(e.Key) == gamePlayVM.Opt.MoveDown)
+            {
+                gamePlayVM.PlayerSpaceShip.MovementDirection = Model.Direction.DownMove;
+                gamePlayVM.PlayerSpaceShip.KeyMove(spaceShipSpeed, GameCanvas.ActualWidth, GameCanvas.ActualHeight);
+            }
+            else if (gamePlayVM.SpecKeys(e.Key) == gamePlayVM.Opt.Shoot)
+            {
+                gamePlayVM.Ammo = gamePlayVM.PlayerSpaceShip.Shoot();
+                this.GameCanvas.Children.Add(gamePlayVM.Ammo.getAmmo());
+                gamePlayVM.AmmoList.Add(gamePlayVM.Ammo);
+            }
+            else if (e.Key == Key.Left)
+            {
+                gamePlayVM.Enemy = new Model.EnemyObjects(GameCanvas.ActualWidth, GameCanvas.ActualHeight / 2, 20, 20, Model.EnemyType.Easy);
+                GameCanvas.Children.Add(gamePlayVM.Enemy.getSpaceShip());
+                gamePlayVM.EnemyList.Add(gamePlayVM.Enemy);
             }
         }
     }
 }
+

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace SpaceInvader.Model
@@ -17,8 +18,6 @@ namespace SpaceInvader.Model
     class PlayerSpaceShip : MainObject
     {
         protected int takenDamage;
-        private double horizontalMovement;
-        private double verticalMovement;
         Direction movementDirection;
 
         public int TakenDamage
@@ -31,32 +30,6 @@ namespace SpaceInvader.Model
             set
             {
                 takenDamage = value;
-            }
-        }
-
-        public double HorizontalMovement
-        {
-            get
-            {
-                return horizontalMovement;
-            }
-
-            set
-            {
-                horizontalMovement = value;
-            }
-        }
-
-        public double VerticalMovement
-        {
-            get
-            {
-                return verticalMovement;
-            }
-
-            set
-            {
-                verticalMovement = value;
             }
         }
 
@@ -73,10 +46,8 @@ namespace SpaceInvader.Model
             }
         }
 
-        public PlayerSpaceShip(double posX, double posY, double width, double height, double horizontalMovement, double verticalMovement) : base(posX, posY, width, height)
+        public PlayerSpaceShip(double posX, double posY, double width, double height) : base(posX, posY, width, height)
         {
-            this.horizontalMovement = horizontalMovement;
-            this.verticalMovement = verticalMovement;
         }
 
         public Rectangle getSpaceShip()
@@ -85,8 +56,10 @@ namespace SpaceInvader.Model
             spaceShipRect.Width = Area.Width;
             spaceShipRect.Height = Area.Height;
 
-            spaceShipRect.Fill = Brushes.Blue;
+            ImageBrush imgBrush = new ImageBrush();
+            imgBrush.ImageSource = new BitmapImage(new Uri(@"..\..\Resources\vipermarkii.png", UriKind.Relative));
 
+            spaceShipRect.Fill = imgBrush;
             Binding rectangleXBinding = new Binding("Area.X");
             rectangleXBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.LeftProperty, rectangleXBinding);
@@ -107,22 +80,6 @@ namespace SpaceInvader.Model
             spaceShipRect.SetBinding(Canvas.HeightProperty, rectangleHeightBinding);
 
             return spaceShipRect;
-        }
-
-        public bool Move(double canvasWidth, double canvasHeight, double speed)
-        {
-            if (Area.X <= canvasWidth)
-            {
-                return true;
-            }
-            else
-            {
-                area.X += speed;
-
-                OnPropertyChanged("Area");
-
-                return false;
-            }
         }
 
         public void KeyMove(double shipSpeed, double canvasWidth, double canvasHeight)
@@ -166,6 +123,49 @@ namespace SpaceInvader.Model
                 }
                 OnPropertyChanged("Area");
             }
+            else if (Direction.DownMove == movementDirection)
+            {
+                if (Area.Y + Area.Height >= canvasHeight)
+                {
+                    area.Y = canvasHeight - Area.Height;
+                }
+                else
+                {
+                    if (canvasHeight - Area.Y + Area.Height < shipSpeed)
+                    {
+                        area.Y -= canvasHeight - Area.Y + Area.Height;
+                    }
+                    else
+                    {
+                        area.Y += shipSpeed;
+                    }
+                }
+                OnPropertyChanged("Area");
+            }
+            else if (Direction.UpMove == movementDirection)
+            {
+                if (Area.Y <= 0)
+                {
+                    area.Y = 0;
+                }
+                else
+                {
+                    if (Area.Y - 0 < shipSpeed)
+                    {
+                        area.Y -= Area.Y - 0;
+                    }
+                    else
+                    {
+                        area.Y -= shipSpeed;
+                    }
+                }
+                OnPropertyChanged("Area");
+            }
+        }
+
+        public AmmoModel Shoot()
+        {
+            return new AmmoModel(this.area.X + this.area.Width, this.area.Y + 7, 7, 7);
         }
 
     }
