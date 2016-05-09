@@ -53,6 +53,7 @@ namespace SpaceInvader.Model
         public Rectangle getSpaceShip()
         {
             Rectangle spaceShipRect = new Rectangle();
+            spaceShipRect.Tag = ObjectId;
             spaceShipRect.Width = Area.Width;
             spaceShipRect.Height = Area.Height;
 
@@ -63,18 +64,15 @@ namespace SpaceInvader.Model
             Binding rectangleXBinding = new Binding("Area.X");
             rectangleXBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.LeftProperty, rectangleXBinding);
-
-            // Bind the Y position of the brick rectangle to the canvas.
+            
             Binding rectangleYBinding = new Binding("Area.Y");
             rectangleYBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.TopProperty, rectangleYBinding);
-
-            // Bind the width of the brick rectangle to the canvas.
+            
             Binding rectangleWidthBinding = new Binding("Area.Width");
             rectangleWidthBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.WidthProperty, rectangleWidthBinding);
-
-            // Bind the height of the brick rectangle to the canvas.
+            
             Binding rectangleHeightBinding = new Binding("Area.Height");
             rectangleHeightBinding.Source = this;
             spaceShipRect.SetBinding(Canvas.HeightProperty, rectangleHeightBinding);

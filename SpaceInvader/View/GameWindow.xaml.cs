@@ -28,15 +28,15 @@ namespace SpaceInvader.View
         GamePlayViewModel gamePlayVM;
         int count = 0;
         public const double spaceShipSpeed = 10;
+        public double enemySpaceShipSpeed;
+
         public GameWindow()
         {
             InitializeComponent();
             gamePlayVM = new GamePlayViewModel();
             this.DataContext = gamePlayVM;
 
-            gamePlayVM.PlayerSpaceShip = new Model.PlayerSpaceShip(100, 100, 20, 20);
-            GameCanvas.Children.Add(gamePlayVM.PlayerSpaceShip.getSpaceShip());
-
+            gamePlayVM.AddPlayer(GameCanvas);
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             timer.Tick += Timer_Tick;
@@ -57,33 +57,55 @@ namespace SpaceInvader.View
         {
             for (int i = 0; i < gamePlayVM.EnemyList.Count; i++)
             {
-                gamePlayVM.EnemyList[i].Move(GameCanvas.ActualWidth, GameCanvas.ActualHeight, 10);
+                gamePlayVM.EnemyList[i].Move(GameCanvas.ActualWidth, GameCanvas.ActualHeight, enemySpaceShipSpeed);
             }
             gamePlayVM.RemoveBullet(GameCanvas);
             gamePlayVM.RemoveEnemy(GameCanvas);
 
             gamePlayVM.AmmoContactWithEnemy(GameCanvas);
+            gamePlayVM.EnemyContactWithPlayer(GameCanvas);
+            gamePlayVM.EnemyAmmoHitPlayerSpaceShip(GameCanvas);
+
+            if (gamePlayVM.GameInSession == false)
+            {
+                timer.Stop();
+                timerOfEnemyAdding.Stop();
+                timerOfEnemyMovement.Stop();
+
+                EndGameWindow childWindow = new EndGameWindow();
+                childWindow.ScoreTextBox.Text = this.ScoreLabel.Content.ToString();
+                childWindow.Show();
+                this.Close();
+            }
+
             ScoreLabel.Content = gamePlayVM.Score;
         }
 
         private void TimerOfEnemyAdding_Tick(object sender, EventArgs e)
         {
-            Random rnd = new Random();
-            Array enemyTypeValues = Enum.GetValues(typeof(Model.EnemyType));
-            Model.EnemyType randomEnemyType = (Model.EnemyType)enemyTypeValues.GetValue(rnd.Next(enemyTypeValues.Length));
+            gamePlayVM.AddEnemy(GameCanvas);
 
-            gamePlayVM.Enemy = new Model.EnemyObjects(GameCanvas.ActualWidth, rnd.Next(0, (int)GameCanvas.ActualHeight - 20), 20, 20, randomEnemyType);
-            GameCanvas.Children.Add(gamePlayVM.Enemy.getSpaceShip());
-            gamePlayVM.EnemyList.Add(gamePlayVM.Enemy);
+            for (int i = 0; i < gamePlayVM.EnemyList.Count; i++)
+            {
+                if (gamePlayVM.EnemyList[i].TypeOfEnemySpaceShip != Model.EnemyType.Easy)
+                {
+                    gamePlayVM.EnemyList[i].Shoot();
+                }
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            for (int i = 0; i < gamePlayVM.EnemyAmmoList.Count; i++)
+            {
+                gamePlayVM.EnemyAmmoList[i].MoveFromEnemy();
+            }
+
             for (int i = 0; i < gamePlayVM.AmmoList.Count; i++)
             {
-                gamePlayVM.AmmoList[i].Move();
+                gamePlayVM.AmmoList[i].MoveFromPlayer();
             }
-            if (gamePlayVM.Counter == 10)
+            if (gamePlayVM.Counter == 50)
             {
                 timer.Stop();
                 timerOfEnemyAdding.Stop();

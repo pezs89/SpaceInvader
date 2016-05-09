@@ -29,6 +29,7 @@ namespace SpaceInvader.View
             GameWindow childWindow = new GameWindow();
             childWindow.Height = this.Height;
             childWindow.Width = this.Width;
+            childWindow.enemySpaceShipSpeed = 8;
             this.Close();
             childWindow.Show();
         }
@@ -38,6 +39,7 @@ namespace SpaceInvader.View
             GameWindow childWindow = new GameWindow();
             childWindow.Height = this.Height;
             childWindow.Width = this.Width;
+            childWindow.enemySpaceShipSpeed = 11;
             this.Close();
             childWindow.Show();
         }
@@ -47,6 +49,7 @@ namespace SpaceInvader.View
             GameWindow childWindow = new GameWindow();
             childWindow.Height = this.Height;
             childWindow.Width = this.Width;
+            childWindow.enemySpaceShipSpeed = 14;
             this.Close();
             childWindow.Show();
         }

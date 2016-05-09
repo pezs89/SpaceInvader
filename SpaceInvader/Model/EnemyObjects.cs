@@ -159,6 +159,10 @@ namespace SpaceInvader.Model
                     break;
             }
         }
+        public AmmoModel Shoot()
+        {
+            return new AmmoModel(this.area.X , this.area.Y + 7, 7, 7);
+        }
 
     }
 }

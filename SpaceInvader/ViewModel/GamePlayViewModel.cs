@@ -17,26 +17,13 @@ namespace SpaceInvader.ViewModel
         private PlayerSpaceShip playerSpaceShip;
         private List<AmmoModel> ammoList;
         private List<EnemyObjects> enemyList;
+        private List<PlayerSpaceShip> playerSpaceShipList;
+        private List<AmmoModel> enemyAmmoList;
         private EnemyObjects enemy;
         private AmmoModel ammo;
-        private List<EnemyObjects> deleteFromEnemyList;
-        bool gameIsPaused;
-        bool gameInSession;
+        bool gameInSession = true;
         private int score;
-       public int Counter { get; set; }
-
-        public bool GameIsPaused
-        {
-            get
-            {
-                return gameIsPaused;
-            }
-
-            set
-            {
-                gameIsPaused = value;
-            }
-        }
+        public int Counter { get; set; }
 
         public bool GameInSession
         {
@@ -124,24 +111,36 @@ namespace SpaceInvader.ViewModel
             }
         }
 
-
-        public List<EnemyObjects> DeleteFromEnemyList
-        {
-            get
-            {
-                return deleteFromEnemyList;
-            }
-
-            set
-            {
-                deleteFromEnemyList = value;
-            }
-        }
-
         public int Score
         {
             get { return score; }
             set { score = value; }
+        }
+
+        public List<PlayerSpaceShip> PlayerSpaceShipList
+        {
+            get
+            {
+                return playerSpaceShipList;
+            }
+
+            set
+            {
+                playerSpaceShipList = value;
+            }
+        }
+
+        public List<AmmoModel> EnemyAmmoList
+        {
+            get
+            {
+                return enemyAmmoList;
+            }
+
+            set
+            {
+                enemyAmmoList = value;
+            }
         }
 
         public GamePlayViewModel()
@@ -150,7 +149,11 @@ namespace SpaceInvader.ViewModel
             opt.optionsXmlDataProvider.getXmlData(Opt);
             ammoList = new List<AmmoModel>();
             enemyList = new List<EnemyObjects>();
-            deleteFromEnemyList = new List<EnemyObjects>();
+            playerSpaceShipList = new List<PlayerSpaceShip>();
+            enemyAmmoList = new List<AmmoModel>();
+            PlayerSpaceShip = new PlayerSpaceShip(100, 100, 20, 20);
+            PlayerSpaceShip.TakenDamage = 3;
+            playerSpaceShipList.Add(PlayerSpaceShip);
         }
         public void RemoveEnemy(Canvas canvas)
         {
@@ -166,6 +169,25 @@ namespace SpaceInvader.ViewModel
                         canvas.Children.Remove(searchEnemy);
                     }
                 }
+            }
+        }
+
+        public void AddEnemy(Canvas canvas)
+        {
+            Random rnd = new Random();
+            Array enemyTypeValues = Enum.GetValues(typeof(Model.EnemyType));
+            EnemyType randomEnemyType = (Model.EnemyType)enemyTypeValues.GetValue(rnd.Next(enemyTypeValues.Length));
+
+            Enemy = new EnemyObjects(canvas.ActualWidth, rnd.Next(0, (int)canvas.ActualHeight - 20), 20, 20, randomEnemyType);
+            canvas.Children.Add(Enemy.getSpaceShip());
+            EnemyList.Add(Enemy);
+        }
+
+        public void AddPlayer(Canvas canvas)
+        {
+            foreach (var item in playerSpaceShipList)
+            {
+                canvas.Children.Add(item.getSpaceShip());
             }
         }
 
@@ -186,6 +208,77 @@ namespace SpaceInvader.ViewModel
             }
         }
 
+        public void EnemyContactWithPlayer(Canvas canvas)
+        {
+            for (int i = 0; i < EnemyList.Count; i++)
+            {
+                if (EnemyList[i].Area.IntersectsWith(PlayerSpaceShip.Area))
+                {
+                    PlayerSpaceShip.TakenDamage -= 1;
+                    int takenDmg = PlayerSpaceShip.TakenDamage;
+                    if (PlayerSpaceShip.TakenDamage == 0)
+                    {
+                        gameInSession = false;
+                    }
+                    else
+                    {
+                        for (int j = 0; j < PlayerSpaceShipList.Count; j++)
+                        {
+                            var playerId = PlayerSpaceShipList[i].ObjectId;
+                            PlayerSpaceShipList.Remove(PlayerSpaceShipList[i]);
+                            var searchPlayer = canvas.Children.OfType<Rectangle>().FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == playerId);
+                            if (searchPlayer != null)
+                            {
+                                canvas.Children.Remove(searchPlayer);
+                            }
+
+                        }
+                        PlayerSpaceShip = new PlayerSpaceShip(10, canvas.ActualHeight / 2, 20, 20);
+                        PlayerSpaceShip.TakenDamage = takenDmg;
+                        playerSpaceShipList.Add(PlayerSpaceShip);
+                        canvas.Children.Add(PlayerSpaceShip.getSpaceShip());
+                        gameInSession = true;
+
+
+                    }
+                }
+            }
+        }
+
+        public void EnemyAmmoHitPlayerSpaceShip(Canvas canvas)
+        {
+            for (int i = 0; i < EnemyAmmoList.Count; i++)
+            {
+                if (EnemyAmmoList[i].Area.IntersectsWith(PlayerSpaceShip.Area))
+                {
+                    PlayerSpaceShip.TakenDamage -= 1;
+                    int takenDmg = PlayerSpaceShip.TakenDamage;
+                    if (PlayerSpaceShip.TakenDamage == 0)
+                    {
+                        gameInSession = false;
+                    }
+                    else
+                    {
+                        for (int j = 0; j < PlayerSpaceShipList.Count; j++)
+                        {
+                            var playerId = PlayerSpaceShipList[i].ObjectId;
+                            PlayerSpaceShipList.Remove(PlayerSpaceShipList[i]);
+                            var searchPlayer = canvas.Children.OfType<Rectangle>().FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == playerId);
+                            if (searchPlayer != null)
+                            {
+                                canvas.Children.Remove(searchPlayer);
+                            }
+
+                        }
+                        PlayerSpaceShip = new PlayerSpaceShip(10, canvas.ActualHeight / 2, 20, 20);
+                        PlayerSpaceShip.TakenDamage = takenDmg;
+                        playerSpaceShipList.Add(PlayerSpaceShip);
+                        canvas.Children.Add(PlayerSpaceShip.getSpaceShip());
+                        gameInSession = true;
+                    }
+                }
+            }
+
         public void AmmoContactWithEnemy(Canvas canvas)
         {
             for (int i = 0; i < EnemyList.Count; i++)
@@ -196,10 +289,6 @@ namespace SpaceInvader.ViewModel
                     {
                         var enemyId = EnemyList[i].ObjectId;
                         var ammoId = AmmoList[j].ObjectId;
-                        EnemyList.Remove(EnemyList[i]);
-                        AmmoList.Remove(AmmoList[j]);
-                        var searchEnemy = canvas.Children.OfType<Rectangle>()
-                                .FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == enemyId);
                         if (EnemyList[i].TypeOfEnemySpaceShip == EnemyType.Easy)
                         {
                             Score += 10;
@@ -212,6 +301,11 @@ namespace SpaceInvader.ViewModel
                         {
                             Score += 30;
                         }
+
+                        EnemyList.Remove(EnemyList[i]);
+                        AmmoList.Remove(AmmoList[j]);
+                        var searchEnemy = canvas.Children.OfType<Rectangle>()
+                                .FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == enemyId);
 
                         var searchAmmo =
                         canvas.Children.OfType<Ellipse>()

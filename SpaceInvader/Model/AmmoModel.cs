@@ -13,7 +13,7 @@ namespace SpaceInvader.Model
 {
     class AmmoModel : MainObject
     {
-        private const double ammoSpeed = 30;
+        private const double ammoSpeed = 20;
 
         public AmmoModel(double posX, double posY, double width, double height) : base(posX, posY, width, height)
         {
@@ -41,8 +41,7 @@ namespace SpaceInvader.Model
             Binding ellipseWidthBinding = new Binding("Area.Width");
             ellipseWidthBinding.Source = this;
             ammoEllipse.SetBinding(Canvas.WidthProperty, ellipseWidthBinding);
-
-            // Bind the height of the ball ellipse to the canvas.
+            
             Binding ellipseHeightBinding = new Binding("Area.Height");
             ellipseHeightBinding.Source = this;
             ammoEllipse.SetBinding(Canvas.HeightProperty, ellipseHeightBinding);
@@ -50,9 +49,15 @@ namespace SpaceInvader.Model
             return ammoEllipse;
         }
 
-        public void Move()
+        public void MoveFromPlayer()
         {
             this.area.X = this.area.X + ammoSpeed;
+            OnPropertyChanged("Area");
+        }
+
+        public void MoveFromEnemy()
+        {
+            this.area.X = this.area.X - (ammoSpeed - 5);
             OnPropertyChanged("Area");
         }
     }

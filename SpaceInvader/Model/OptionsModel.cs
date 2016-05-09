@@ -23,7 +23,7 @@ namespace SpaceInvader.Model
             optionsXmlDataProvider = new OptionsXmlAccess();
         }
 
-        public OptionsModel(string moveLeft,string moveRight, string moveUp, string moveDown, string pause, string shoot, bool isKeyboardEnabled, bool isMouseEnabled)
+        public OptionsModel(string moveLeft,string moveRight, string moveUp, string moveDown, string pause, string shoot)
         {
             this.MoveLeft = moveLeft;
             this.MoveRight = MoveRight;
