@@ -26,7 +26,7 @@ namespace SpaceInvader.View
         DispatcherTimer timerOfEnemyAdding;
         DispatcherTimer timerOfEnemyMovement;
         GamePlayViewModel gamePlayVM;
-
+        int count = 0;
         public const double spaceShipSpeed = 10;
         public GameWindow()
         {
@@ -83,8 +83,6 @@ namespace SpaceInvader.View
             {
                 gamePlayVM.AmmoList[i].Move();
             }
-
-
             if (gamePlayVM.Counter == 10)
             {
                 timer.Stop();
@@ -102,11 +100,20 @@ namespace SpaceInvader.View
         {
             if (e.Key == Key.Escape)
             {
-                gamePlayVM.GameIsPaused = true;
-
+                timer.Stop();
+                timerOfEnemyAdding.Stop();
+                timerOfEnemyMovement.Stop();
                 if (MessageBox.Show("Do you want to quit?", "Warning", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    gamePlayVM.GameInSession = false;
+                    MainWindow childWindow = new MainWindow();
+                    childWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    timer.Start();
+                    timerOfEnemyAdding.Start();
+                    timerOfEnemyMovement.Start();
                 }
             }
             else if (gamePlayVM.SpecKeys(e.Key) == gamePlayVM.Opt.MoveLeft)
@@ -134,6 +141,20 @@ namespace SpaceInvader.View
                 gamePlayVM.Ammo = gamePlayVM.PlayerSpaceShip.Shoot();
                 this.GameCanvas.Children.Add(gamePlayVM.Ammo.getAmmo());
                 gamePlayVM.AmmoList.Add(gamePlayVM.Ammo);
+            }
+            else if (gamePlayVM.SpecKeys(e.Key) == gamePlayVM.Opt.Pause)
+            {
+                timer.Stop();
+                timerOfEnemyAdding.Stop();
+                timerOfEnemyMovement.Stop();
+                count++;
+                if (count == 2)
+                {
+                    count = 0;
+                    timer.Start();
+                    timerOfEnemyAdding.Start();
+                    timerOfEnemyMovement.Start();
+                }
             }
         }
     }
