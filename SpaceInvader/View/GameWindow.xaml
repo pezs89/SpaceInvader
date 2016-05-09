@@ -9,5 +9,28 @@
     <Window.Background>
         <ImageBrush ImageSource="../Resources/spacewallpaper.jpg"></ImageBrush>
     </Window.Background>
-    <Canvas x:Name="GameCanvas"></Canvas>
+    <Window.Resources>
+        <Style x:Key="CustomLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="10"></Setter>
+            <Setter Property="FontFamily" Value="Arial"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Canvas x:Name="GameCanvas">
+        <Grid Width="100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Score:" Style="{StaticResource CustomLabelStyle}"></Label>
+            <Label x:Name="ScoreLabel" Grid.Column="1" Style="{StaticResource CustomLabelStyle}"></Label>
+        </Grid>
+    </Canvas>
 </Window>

@@ -7,6 +7,7 @@ using SpaceInvader.Model;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace SpaceInvader.ViewModel
 {
@@ -21,6 +22,7 @@ namespace SpaceInvader.ViewModel
         private List<EnemyObjects> deleteFromEnemyList;
         bool gameIsPaused;
         bool gameInSession;
+        private int score;
 
         public bool GameIsPaused
         {
@@ -135,6 +137,12 @@ namespace SpaceInvader.ViewModel
             }
         }
 
+        public int Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
+
         public GamePlayViewModel()
         {
             opt = new OptionsModel();
@@ -149,8 +157,73 @@ namespace SpaceInvader.ViewModel
             {
                 if (EnemyList[i].Area.X == 0)
                 {
+                    var enemyId = EnemyList[i].ObjectId;
                     EnemyList.Remove(EnemyList[i]);
-                    canvas.Children.RemoveAt(i);
+                    var searchEnemy = canvas.Children.OfType<Rectangle>().FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == enemyId);
+                    if (searchEnemy != null)
+                    {
+                        canvas.Children.Remove(searchEnemy);
+                    }
+                }
+            }
+        }
+
+        public void RemoveBullet(Canvas canvas)
+        {
+            for (int i = 0; i < AmmoList.Count; i++)
+            {
+                if (AmmoList[i].Area.X == canvas.ActualWidth)
+                {
+                    var ammoId = AmmoList[i].ObjectId;
+                    AmmoList.Remove(AmmoList[i]);
+                    var searchAmmo = canvas.Children.OfType<Ellipse>().FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == ammoId);
+                    if (searchAmmo != null)
+                    {
+                        canvas.Children.Remove(searchAmmo);
+                    }
+                }
+            }
+        }
+
+        public void AmmoContactWithEnemy(Canvas canvas)
+        {
+            for (int i = 0; i < EnemyList.Count; i++)
+            {
+                for (int j = 0; j < AmmoList.Count; j++)
+                {
+                    if (EnemyList[i].Area.IntersectsWith(AmmoList[j].Area))
+                    {
+                        var enemyId = EnemyList[i].ObjectId;
+                        var ammoId = AmmoList[j].ObjectId;
+                        EnemyList.Remove(EnemyList[i]);
+                        AmmoList.Remove(AmmoList[j]);
+                        var searchEnemy = canvas.Children.OfType<Rectangle>()
+                                .FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == enemyId);
+                        if (EnemyList[i].TypeOfEnemySpaceShip == EnemyType.Easy)
+                        {
+                            Score += 10;
+                        }
+                        else if (EnemyList[i].TypeOfEnemySpaceShip == EnemyType.Medium)
+                        {
+                            Score += 20;
+                        }
+                        else if (EnemyList[i].TypeOfEnemySpaceShip == EnemyType.Hard)
+                        {
+                            Score += 30;
+                        }
+
+                        var searchAmmo =
+                        canvas.Children.OfType<Ellipse>()
+                            .FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == ammoId);
+                        if (searchAmmo != null)
+                        {
+                            canvas.Children.Remove(searchAmmo);
+                        }
+                        if (searchEnemy != null)
+                        {
+                            canvas.Children.Remove(searchEnemy);
+                        }
+                    }
                 }
             }
         }

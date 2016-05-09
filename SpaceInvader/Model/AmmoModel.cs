@@ -22,6 +22,7 @@ namespace SpaceInvader.Model
         public Ellipse getAmmo()
         {
             Ellipse ammoEllipse = new Ellipse();
+            ammoEllipse.Tag = ObjectId;
             ammoEllipse.Width = Area.Width;
             ammoEllipse.Height = Area.Height;
 

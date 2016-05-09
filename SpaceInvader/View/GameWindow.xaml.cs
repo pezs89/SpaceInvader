@@ -59,7 +59,12 @@ namespace SpaceInvader.View
             {
                 gamePlayVM.EnemyList[i].Move(GameCanvas.ActualWidth, GameCanvas.ActualHeight, 10);
             }
+            gamePlayVM.RemoveBullet(GameCanvas);
             gamePlayVM.RemoveEnemy(GameCanvas);
+
+            gamePlayVM.AmmoContactWithEnemy(GameCanvas);
+            ScoreLabel.Content = gamePlayVM.Score;
+
         }
 
         private void TimerOfEnemyAdding_Tick(object sender, EventArgs e)

@@ -10,7 +10,7 @@ namespace SpaceInvader.Model
     class MainObject : Bindable
     {
         protected Rect area;
-
+        private Guid objectID;
         public Rect Area
         {
             get
@@ -25,9 +25,16 @@ namespace SpaceInvader.Model
             }
         }
 
+        public Guid ObjectId
+        {
+            get { return objectID; }
+            set { objectID = value; }
+        }
+
         public MainObject(double posX, double posY, double width, double height)
         {
             Area = new Rect(posX, posY, width, height);
+            objectID = Guid.NewGuid();
         }
     }
 }

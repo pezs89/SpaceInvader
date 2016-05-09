@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace SpaceInvader.Model
@@ -87,20 +88,27 @@ namespace SpaceInvader.Model
         public Rectangle getSpaceShip()
         {
             Rectangle spaceShipRect = new Rectangle();
+            spaceShipRect.Tag = ObjectId;
             spaceShipRect.Width = Area.Width;
             spaceShipRect.Height = Area.Height;
 
             if (TypeOfEnemySpaceShip == EnemyType.Easy)
             {
-                spaceShipRect.Fill = Brushes.Green;
+                ImageBrush imgBrush = new ImageBrush();
+                imgBrush.ImageSource = new BitmapImage(new Uri(@"..\..\Resources\EasyEnemy.png", UriKind.Relative));
+                spaceShipRect.Fill = imgBrush;
             }
             else if (TypeOfEnemySpaceShip == EnemyType.Medium)
             {
-                spaceShipRect.Fill = Brushes.Blue;
+                ImageBrush imgBrush = new ImageBrush();
+                imgBrush.ImageSource = new BitmapImage(new Uri(@"..\..\Resources\mediumEnemy.png", UriKind.Relative));
+                spaceShipRect.Fill = imgBrush;
             }
             else if (TypeOfEnemySpaceShip == EnemyType.Hard)
             {
-                spaceShipRect.Fill = Brushes.DarkBlue;
+                ImageBrush imgBrush = new ImageBrush();
+                imgBrush.ImageSource = new BitmapImage(new Uri(@"..\..\Resources\hardenemy.png", UriKind.Relative));
+                spaceShipRect.Fill = imgBrush;
             }
             
             Binding rectangleXBinding = new Binding("Area.X");
