@@ -253,6 +253,17 @@ namespace SpaceInvader.ViewModel
                 {
                     PlayerSpaceShip.TakenDamage -= 1;
                     int takenDmg = PlayerSpaceShip.TakenDamage;
+
+                    var ammoId = EnemyAmmoList[i].ObjectId;
+                    AmmoList.Remove(AmmoList[i]);
+                    var searchAmmo =
+                    canvas.Children.OfType<Ellipse>()
+                        .FirstOrDefault(x => x.Tag != null && (Guid)x.Tag == ammoId);
+                    if (searchAmmo != null)
+                    {
+                        canvas.Children.Remove(searchAmmo);
+                    }
+
                     if (PlayerSpaceShip.TakenDamage == 0)
                     {
                         gameInSession = false;
@@ -278,6 +289,7 @@ namespace SpaceInvader.ViewModel
                     }
                 }
             }
+        }
 
         public void AmmoContactWithEnemy(Canvas canvas)
         {

@@ -11,7 +11,7 @@ namespace SpaceInvader.View
     {
         List<HighScoreModel> highScoreModel;
         HighScoreModel hsModel;
-        private const int highScoreLimit = 100;
+        private const int highScoreLimit = 10;
         public List<HighScoreModel> HighScoreModel
         {
             get

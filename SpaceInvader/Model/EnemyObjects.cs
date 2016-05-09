@@ -20,8 +20,6 @@ namespace SpaceInvader.Model
     class EnemyObjects : MainObject
     {
         EnemyType typeOfEnemySpaceShip;
-        protected int takenDamage;
-        private bool isDeletable;
 
         public EnemyType TypeOfEnemySpaceShip
         {
@@ -36,53 +34,9 @@ namespace SpaceInvader.Model
             }
         }
 
-        public int TakenDamage
-        {
-            get
-            {
-                return takenDamage;
-            }
-
-            set
-            {
-                if (typeOfEnemySpaceShip == EnemyType.Easy)
-                {
-                    takenDamage = 1;
-                }
-                if (typeOfEnemySpaceShip == EnemyType.Medium)
-                {
-                    takenDamage = 2;
-                }
-                if (typeOfEnemySpaceShip == EnemyType.Hard)
-                {
-                    takenDamage = 3;
-                }
-            }
-        }
-
-        public bool IsDeletable
-        {
-            get { return isDeletable; }
-            set { isDeletable = value; }
-        }
-
         public EnemyObjects(double posX, double posY, double width, double height, EnemyType typeOfEnemy) : base(posX, posY, width, height)
         {
             this.typeOfEnemySpaceShip = typeOfEnemy;
-            switch (TypeOfEnemySpaceShip)
-            {
-                case EnemyType.Easy:
-                    this.takenDamage = 1;
-                    break;
-                case EnemyType.Medium:
-                    this.takenDamage = 2;
-                    break;
-                case EnemyType.Hard:
-                    this.takenDamage = 3;
-                    break;
-                default:
-                    break;
-            }
         }
 
         public Rectangle getSpaceShip()
