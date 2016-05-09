@@ -64,7 +64,6 @@ namespace SpaceInvader.View
 
             gamePlayVM.AmmoContactWithEnemy(GameCanvas);
             ScoreLabel.Content = gamePlayVM.Score;
-
         }
 
         private void TimerOfEnemyAdding_Tick(object sender, EventArgs e)
@@ -83,6 +82,19 @@ namespace SpaceInvader.View
             for (int i = 0; i < gamePlayVM.AmmoList.Count; i++)
             {
                 gamePlayVM.AmmoList[i].Move();
+            }
+
+
+            if (gamePlayVM.Counter == 10)
+            {
+                timer.Stop();
+                timerOfEnemyAdding.Stop();
+                timerOfEnemyMovement.Stop();
+
+                EndGameWindow childWindow = new EndGameWindow();
+                childWindow.ScoreTextBox.Text = this.ScoreLabel.Content.ToString();
+                childWindow.Show();
+                this.Close();
             }
         }
 

@@ -23,6 +23,7 @@ namespace SpaceInvader.ViewModel
         bool gameIsPaused;
         bool gameInSession;
         private int score;
+       public int Counter { get; set; }
 
         public bool GameIsPaused
         {
@@ -223,6 +224,7 @@ namespace SpaceInvader.ViewModel
                         {
                             canvas.Children.Remove(searchEnemy);
                         }
+                        Counter++;
                     }
                 }
             }
