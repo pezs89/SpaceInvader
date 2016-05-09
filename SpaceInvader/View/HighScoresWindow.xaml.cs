@@ -20,11 +20,12 @@ namespace SpaceInvader.View
     /// </summary>
     public partial class HighScoresWindow : Window
     {
+        private HighScoreViewModel highScoreVM;
         public HighScoresWindow()
         {
             InitializeComponent();
 
-            HighScoreViewModel highScoreVM = new HighScoreViewModel();
+            highScoreVM = new HighScoreViewModel();
             this.DataContext = highScoreVM;
         }
 
