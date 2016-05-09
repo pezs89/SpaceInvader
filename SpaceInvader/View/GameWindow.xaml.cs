@@ -60,13 +60,7 @@ namespace SpaceInvader.View
                 gamePlayVM.EnemyList[i].Move(GameCanvas.ActualWidth, GameCanvas.ActualHeight, 10);
             }
 
-            //for (int i = 0; i < gamePlayVM.EnemyList.Count; i++)
-            //{
-            //    if (gamePlayVM.EnemyList[i].Area.X == 0)
-            //    {
-            //        gamePlayVM.RemoveEnemy(GameCanvas);
-            //    }
-            //}
+            gamePlayVM.RemoveEnemy(GameCanvas);
         }
 
         private void TimerOfEnemyAdding_Tick(object sender, EventArgs e)
@@ -75,7 +69,7 @@ namespace SpaceInvader.View
             Array enemyTypeValues = Enum.GetValues(typeof(Model.EnemyType));
             Model.EnemyType randomEnemyType = (Model.EnemyType)enemyTypeValues.GetValue(rnd.Next(enemyTypeValues.Length));
 
-            gamePlayVM.Enemy = new Model.EnemyObjects(GameCanvas.ActualWidth, rnd.Next(0, (int)GameCanvas.ActualHeight-20), 20, 20, randomEnemyType);
+            gamePlayVM.Enemy = new Model.EnemyObjects(GameCanvas.ActualWidth, rnd.Next(0, (int)GameCanvas.ActualHeight - 20), 20, 20, randomEnemyType);
             GameCanvas.Children.Add(gamePlayVM.Enemy.getSpaceShip());
             gamePlayVM.EnemyList.Add(gamePlayVM.Enemy);
         }

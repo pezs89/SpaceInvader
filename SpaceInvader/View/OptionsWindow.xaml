@@ -160,6 +160,5 @@
             <Button x:Name="BackToMainMenu" Click="BackToMainMenu_Click" Grid.Column="1" Content="Back" Style="{StaticResource CustomButtonStyle}"></Button>
             <Button x:Name="ApplyNewInput" Click="ApplyNewInput_Click" Grid.Column="0" Content="Apply" Style="{StaticResource CustomButtonStyle}"></Button>
         </Grid>
-
     </Grid>
 </Window>

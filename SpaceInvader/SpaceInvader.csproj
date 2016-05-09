@@ -66,6 +66,10 @@
     <Compile Include="View\DifficultySelection.xaml.cs">
       <DependentUpon>DifficultySelection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\EndGameViewModel.cs" />
+    <Compile Include="View\EndGameWindow.xaml.cs">
+      <DependentUpon>EndGameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
@@ -77,6 +81,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DifficultySelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EndGameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,6 +20,7 @@ namespace SpaceInvader.Model
     {
         EnemyType typeOfEnemySpaceShip;
         protected int takenDamage;
+        private bool isDeletable;
 
         public EnemyType TypeOfEnemySpaceShip
         {
@@ -57,6 +58,13 @@ namespace SpaceInvader.Model
                 }
             }
         }
+
+        public bool IsDeletable
+        {
+            get { return isDeletable; }
+            set { isDeletable = value; }
+        }
+
         public EnemyObjects(double posX, double posY, double width, double height, EnemyType typeOfEnemy) : base(posX, posY, width, height)
         {
             this.typeOfEnemySpaceShip = typeOfEnemy;

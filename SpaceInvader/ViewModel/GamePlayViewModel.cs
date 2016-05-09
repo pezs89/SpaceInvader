@@ -121,7 +121,7 @@ namespace SpaceInvader.ViewModel
             }
         }
 
-        
+
         public List<EnemyObjects> DeleteFromEnemyList
         {
             get
@@ -135,14 +135,6 @@ namespace SpaceInvader.ViewModel
             }
         }
 
-        public void RemoveEnemy(Canvas canvas)
-        {
-            var images = canvas.Children.OfType<EnemyObjects>().ToList();
-            foreach (var item in images)
-            {
-                canvas.Children.Remove(item.getSpaceShip());
-            }
-        }
 
         public GamePlayViewModel()
         {
@@ -151,6 +143,17 @@ namespace SpaceInvader.ViewModel
             ammoList = new List<AmmoModel>();
             enemyList = new List<EnemyObjects>();
             deleteFromEnemyList = new List<EnemyObjects>();
+        }
+        public void RemoveEnemy(Canvas canvas)
+        {
+            for (int i = 0; i < EnemyList.Count; i++)
+            {
+                if (EnemyList[i].Area.X == 0)
+                {
+                    EnemyList.Remove(EnemyList[i]);
+                    canvas.Children.RemoveAt(i);
+                }
+            }    
         }
 
         public string SpecKeys(Key inputKey)
