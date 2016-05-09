@@ -135,7 +135,6 @@ namespace SpaceInvader.ViewModel
             }
         }
 
-
         public GamePlayViewModel()
         {
             opt = new OptionsModel();
@@ -153,7 +152,7 @@ namespace SpaceInvader.ViewModel
                     EnemyList.Remove(EnemyList[i]);
                     canvas.Children.RemoveAt(i);
                 }
-            }    
+            }
         }
 
         public string SpecKeys(Key inputKey)

@@ -59,7 +59,6 @@ namespace SpaceInvader.View
             {
                 gamePlayVM.EnemyList[i].Move(GameCanvas.ActualWidth, GameCanvas.ActualHeight, 10);
             }
-
             gamePlayVM.RemoveEnemy(GameCanvas);
         }
 
